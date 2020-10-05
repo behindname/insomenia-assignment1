@@ -15,6 +15,20 @@
   <%= @post.user.email %>
 </p>
 
+<p>
+  <% if user_like_post?(@post, current_user) %>
+    <a href="/posts/<%= @post.id %>/likes", data-method="post">
+      <i class="fa far fa-thumbs-up"></i>
+    </a>
+  <% else %>
+    <a href="/posts/<%= @post.id %>/likes", data-method="post">
+      <i class="fa fas fa-thumbs-up"></i>
+    </a>
+  <% end %>
+  <strong>likes : </strong>
+  <%= @post.likes.count %>
+</p>
+
 <ul>
   <% @post.comments.each do |comment| %>
     <li>
