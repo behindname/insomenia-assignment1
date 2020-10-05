@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :require_permission, only: [:edit, :update, :destroy]
 
   # GET /posts
   # GET /posts.json
@@ -72,5 +73,11 @@ class PostsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def post_params
       params.require(:post).permit(:title, :body)
+    end
+    
+    def require_permission
+      if current_user != @post.user
+        redirect_to request.referrer, notice: '필요한 권한이 없으세요'
+      end
     end
 end
