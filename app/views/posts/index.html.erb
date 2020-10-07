@@ -5,36 +5,49 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="list-group">
+      <ul class="list-group">
         <% if @posts.present? %>
-        <div class="list-group-item active">
+        <li class="list-group-item active">
           <div class="row text-center">
-              <div class="col-md-4">제목</div>
+              <div class="col-md-2">제목</div>
+              <div class="col-md-3">작성자</div>
               <div class="col-md-4">내용</div>
-              <div class="col-md-4">작성자</div>
+              <div class="col-md-3"></div>
           </div>
-        </div>
+        </li>
         <% else %>
-        <div class="list-group-item disabled">
+        <li class="list-group-item disabled">
           <h3>게시물이 없습니다.</h3>
-        </div>
+        </li>
         <% end %>
         <% @posts.each do |post| %>
-          <a href="<%= post_path(post) %>" class="list-group-item list-group-item-action">
+          <li class="list-group-item list-group-item-action">
             <div class="row">
-              <div class="col-md-4"><%= post.title %></div>
-              <div class="col-md-4"><%= post.body %></div>
-              <div class="col-md-4"><%= post.user.email %></div>
+              <div class="col-md-2">
+                <a href="<%= post_path(post)%>"><%= post.title %></a>
+              </div>
+              <div class="col-md-3">
+                <%= post.user.email %>
+              </div>
+              <div class="col-md-4">
+                <a href="<%= post_path(post)%>"><%= truncate post.body %></a>
+              </div>
+              <div class="col-md-3 text-right">
+                <% if current_user && current_user == post.user %>
+                <%= link_to "수정", edit_post_path(post), class: "btn btn-primary btn-sm text-white" %>
+                <%= link_to "삭제", post_path(post), method: :delete, data: { confirm: "정말 삭제하시겠습니까?" }, class: "btn btn-danger btn-sm text-white" %>
+                <% end %>
+              </div>
             </div>
-          </a>
+          </li>
         <% end %>
-      </div>
+      </ul>
     </div>
   </div>
   <% if user_signed_in? %>
   <div class="row justify-content-end mt-3">
     <div class="col-md-auto">
-      <%= link_to '새 글 작성', new_post_path, class: "btn btn-success" %>
+      <%= link_to '새 글 작성', new_post_path, class: "btn btn-success text-white" %>
     </div>
   </div>
   <% end %>

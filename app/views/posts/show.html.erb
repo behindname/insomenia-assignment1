@@ -61,11 +61,14 @@
   <div class="row justify-content-end mt-3">
     <% if current_user && current_user == @post.user %>
     <div class="col-md-auto">
-      <%= link_to '수정하기', edit_post_path(@post), class: "btn btn-primary" %>
+      <%= link_to '삭제하기', post_path(@post), method: :delete,data: {confirm: "정말로 삭제하시겠습니까?"} ,class: "btn btn-danger text-white" %>
+    </div>
+    <div class="col-md-auto">
+      <%= link_to '수정하기', edit_post_path(@post), class: "btn btn-primary text-white" %>
     </div>
     <% end %>
     <div class="col-md-auto">
-      <%= link_to '목록으로', posts_path, class: "btn btn-success" %>
+      <%= link_to '목록으로', posts_path, class: "btn btn-success text-white" %>
     </div>
   </div>
 </div>
