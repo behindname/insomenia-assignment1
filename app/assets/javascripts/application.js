@@ -15,3 +15,6 @@
 //= require turbolinks
 //= require_tree .
 //= stub active_admin
+//= require jquery3
+//= require popper
+//= require bootstrap

@@ -67,5 +67,9 @@ gem 'devise'
 gem 'font-awesome-rails'
 #active admin
 gem 'activeadmin'
+#bootstrap
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
+gem 'mini_racer'
 
 

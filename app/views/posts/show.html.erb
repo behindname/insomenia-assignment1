@@ -1,51 +1,71 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @post.body %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @post.user.email %>
-</p>
-
-<p>
-  <% if user_like_post?(@post, current_user) %>
-    <a href="/posts/<%= @post.id %>/likes", data-method="post">
-      <i class="fa far fa-thumbs-up"></i>
-    </a>
-  <% else %>
-    <a href="/posts/<%= @post.id %>/likes", data-method="post">
-      <i class="fa fas fa-thumbs-up"></i>
-    </a>
-  <% end %>
-  <strong>likes : </strong>
-  <%= @post.likes.count %>
-</p>
-
-<ul>
-  <% @post.comments.each do |comment| %>
-    <li>
-      <%= comment.user.email %> : 
-      <%= comment.body %>
-      <%= link_to "삭제", "/posts/#{@post.id}/comments/#{comment.id}", method: "delete", data: { confirm: '댓글을 삭제하시겠습니까??' } if current_user && current_user.id == comment.user_id %>
-    </li>
-  <% end %>
-</ul>
-
-<form action="/posts/<%= @post.id %>/comments" method="POST">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <input type="text" name="body">
-  <button type="submit">댓글 작성</button>
-</form>
-
-<hr><br>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3><%= @post.title %></h3>
+        </div>
+        <div class="card-body"><%= @post.body %></div>
+        <div class="card-footer">작성자 : <%= @post.user.email%></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <% if user_like_post?(@post, current_user) %>
+        <a href="/posts/<%= @post.id %>/likes", data-method="post">
+          <i class="fa far fa-thumbs-up"></i>
+        </a>
+      <% else %>
+        <a href="/posts/<%= @post.id %>/likes", data-method="post">
+          <i class="fa fas fa-thumbs-up"></i>
+        </a>
+      <% end %>
+      <strong>likes : <%= @post.likes.count %></strong>
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-md-12">
+      <form action="/posts/<%= @post.id %>/comments" method="POST">
+        <div class="form-group">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <!--<input type="text" name="body" class="form-control">-->
+          <textarea class="form-control" name="body" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">댓글 작성</button>
+      </form>
+    </div>
+  </div>
+  <hr>
+  <div class="row align-items-center mt-5">
+    <div class="col-md-12">
+      <ul class="list-group list-group-flush">
+        <% @post.comments.each do |comment| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-3"><%= comment.user.email %></div>
+            <div class="col-md-6"><%= comment.body %></div>
+            <div class="col-md-3 text-right">
+              <%= link_to "삭제", "/posts/#{@post.id}/comments/#{comment.id}", method: "delete", class: "btn btn-danger btn-sm" , data: { confirm: '댓글을 삭제하시겠습니까??' } if current_user && current_user.id == comment.user_id %>
+            </div>
+          </div>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <hr><br>
+  <div class="row justify-content-end mt-3">
+    <% if current_user && current_user == @post.user %>
+    <div class="col-md-auto">
+      <%= link_to '수정하기', edit_post_path(@post), class: "btn btn-primary" %>
+    </div>
+    <% end %>
+    <div class="col-md-auto">
+      <%= link_to '목록으로', posts_path, class: "btn btn-success" %>
+    </div>
+  </div>
+</div>
